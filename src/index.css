@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    @apply antialiased text-gray-800 bg-white;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* ── Gradient text ─────────────────────────────────────── */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-oxford-700 via-blue-500 to-gold-500;
+    background-size: 200%;
+    animation: gradientX 4s ease infinite;
+  }
+
+  /* ── Buttons ──────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white
+           bg-gradient-to-r from-oxford-700 to-blue-500 shadow-lg shadow-blue-500/30
+           hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold
+           border-2 border-oxford-700 text-oxford-700 bg-white
+           hover:bg-oxford-700 hover:text-white hover:scale-105 transition-all duration-300 cursor-pointer;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white
+           bg-gradient-to-r from-gold-500 to-gold-600 shadow-lg shadow-amber-500/30
+           hover:shadow-amber-500/50 hover:scale-105 transition-all duration-300 cursor-pointer;
+  }
+
+  /* ── Cards ────────────────────────────────────────────── */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-white/60 rounded-3xl shadow-xl;
+  }
+
+  .branch-card {
+    @apply relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg
+           hover:shadow-2xl hover:-translate-y-2 transition-all duration-400 cursor-pointer;
+  }
+
+  .teacher-card {
+    @apply rounded-3xl overflow-hidden bg-white shadow-lg border border-gray-100
+           hover:shadow-2xl hover:-translate-y-2 transition-all duration-300;
+  }
+
+  /* ── Section headings ─────────────────────────────────── */
+  .section-label {
+    @apply inline-block text-sm font-semibold uppercase tracking-widest text-oxford-600
+           bg-oxford-50 px-4 py-1.5 rounded-full mb-4;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight;
+  }
+
+  /* ── Stat circles ─────────────────────────────────────── */
+  .stat-circle {
+    @apply flex flex-col items-center justify-center w-36 h-36 rounded-full border-4 border-oxford-100
+           bg-gradient-to-br from-oxford-50 to-white shadow-lg text-center;
+  }
+
+  /* ── Map pins ─────────────────────────────────────────── */
+  .map-pin {
+    @apply absolute flex items-center justify-center w-5 h-5 rounded-full bg-oxford-600
+           shadow-lg cursor-pointer transition-all duration-300
+           hover:scale-150 hover:bg-gold-500 hover:z-10;
+  }
+
+  .map-pin::after {
+    content: '';
+    @apply absolute -inset-1 rounded-full bg-oxford-400/40 animate-ping-slow;
+  }
+
+  /* ── FAQ accordion ────────────────────────────────────── */
+  .faq-item details summary {
+    @apply cursor-pointer list-none flex items-center justify-between p-5 font-semibold text-gray-800;
+  }
+
+  .faq-item details[open] summary {
+    @apply text-oxford-700;
+  }
+
+  .faq-item details[open] summary .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-icon {
+    transition: transform 0.3s ease;
+  }
+
+  /* ── Scroll progress ──────────────────────────────────── */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(to right, #1d4ed8, #f59e0b);
+    z-index: 9999;
+    transition: width 0.1s;
+  }
+}
+
+@layer utilities {
+  .duration-400 { transition-duration: 400ms; }
+  .bg-200 { background-size: 200%; }
+
+  /* Hero gradient background */
+  .hero-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #1d4ed8 70%, #1e40af 100%);
+  }
+
+  /* Noise texture overlay */
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+}
+
+/* Swiper-style slider dots */
+.slider-dots button.active {
+  width: 2rem;
+  background-color: white;
+}
+
+/* WhatsApp pulse */
+.whatsapp-btn {
+  animation: waPulse 2.5s ease-in-out infinite;
+}
+@keyframes waPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+  50%       { box-shadow: 0 0 0 16px rgba(37,211,102,0); }
+}
+
+/* Floating shapes */
+.shape-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: blobMorph 8s ease-in-out infinite;
+}
+@keyframes blobMorph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%       { border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%; }
+  75%       { border-radius: 40% 30% 60% 70% / 70% 50% 40% 30%; }
+}
+
+/* Scrollbar custom */
+::-webkit-scrollbar        { width: 8px; }
+::-webkit-scrollbar-track  { background: #f1f5f9; }
+::-webkit-scrollbar-thumb  { background: #1d4ed8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #1e3a8a; }
