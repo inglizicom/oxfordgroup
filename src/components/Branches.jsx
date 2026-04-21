@@ -1,6 +1,9 @@
 import { useState, useMemo } from 'react'
-import { MapPin, GraduationCap, X, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { MapPin, GraduationCap, X, Star, Clock, Banknote, Layers } from 'lucide-react'
 import { BRANCHES, getTeachersForSelection } from '../data/branchesAndTeachers'
+import { getTeacherById } from '../data/teacherProfiles'
+import { withHomeHash } from '../utils/homeLink'
 
 function BranchTile({ branch, selected, onSelect }) {
   return (
@@ -28,29 +31,59 @@ function BranchTile({ branch, selected, onSelect }) {
 }
 
 function TeacherResultCard({ teacher }) {
+  const full = getTeacherById(teacher.id)
+  if (!full) return null
   return (
     <article
       className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
         <img
-          src={teacher.photo}
+          src={full.photo}
           alt=""
           className="h-full w-full object-cover object-top"
           loading="lazy"
         />
         <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-black/50 px-2 py-1 text-xs font-bold text-white backdrop-blur-sm">
           <Star size={12} className="fill-amber-300 text-amber-300" />
-          {teacher.rating}
+          {full.rating}
         </div>
       </div>
       <div className="p-4 flex-1 flex flex-col">
-        <h4 className="text-lg font-bold text-gray-900">{teacher.name}</h4>
-        <p className="text-sm font-semibold text-oxford-600">{teacher.role}</p>
-        <p className="mt-2 text-sm text-gray-500 flex-1">{teacher.specialty}</p>
-        <a href="#contact" className="mt-4 btn-primary w-full text-sm py-2.5 text-center justify-center">
+        <h4 className="text-lg font-bold text-gray-900">{full.name}</h4>
+        <p className="text-sm font-semibold text-oxford-600">{full.role}</p>
+        <p className="mt-1 text-xs text-gray-500 line-clamp-2">{full.specialty}</p>
+
+        <ul className="mt-3 space-y-2 text-sm text-gray-700">
+          <li className="flex items-start gap-2">
+            <Layers size={16} className="text-oxford-500 shrink-0 mt-0.5" />
+            <span>
+              <span className="font-semibold text-gray-900">Levels: </span>
+              {full.levelsTaught}
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <Clock size={16} className="text-oxford-500 shrink-0" />
+            <span>
+              <span className="font-semibold text-gray-900">Session: </span>
+              {full.sessionDuration}
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <Banknote size={16} className="text-oxford-500 shrink-0" />
+            <span>
+              <span className="font-semibold text-gray-900">From </span>
+              {full.pricePerHourMad} MAD / hr
+            </span>
+          </li>
+        </ul>
+
+        <Link
+          to={`/teacher/${full.id}`}
+          className="mt-4 btn-primary w-full text-sm py-2.5 text-center justify-center"
+        >
           Book a session
-        </a>
+        </Link>
       </div>
     </article>
   )
@@ -200,7 +233,7 @@ export default function Branches() {
                   <p className="text-gray-600 mb-2">
                     No listed teacher for this exact slot yet. Try another level or contact us — we’ll place you in the right class.
                   </p>
-                  <a href="#contact" className="btn-primary inline-flex mt-2">Talk to an advisor</a>
+                  <a href={withHomeHash('contact')} className="btn-primary inline-flex mt-2">Talk to an advisor</a>
                 </div>
               )}
             </>
@@ -220,7 +253,7 @@ export default function Branches() {
 
         <div className="mt-14 text-center">
           <p className="text-gray-500 mb-4">Not sure of your level?</p>
-          <a href="#placement" className="btn-primary text-base py-3 px-8">
+          <a href={withHomeHash('placement')} className="btn-primary text-base py-3 px-8">
             Take our free placement test
           </a>
         </div>

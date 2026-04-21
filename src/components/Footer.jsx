@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { GraduationCap, Mail, Phone, MapPin, Instagram, Facebook, Youtube, Twitter } from 'lucide-react'
+import { withHomeHash } from '../utils/homeLink'
 
 const LINKS = {
   'Learn': [
@@ -46,7 +48,7 @@ export default function Footer() {
             Join 5,000+ students. Your first consultation is completely free.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="#contact" className="btn-gold text-base py-4 px-9 font-bold shadow-xl">
+            <a href={withHomeHash('contact')} className="btn-gold text-base py-4 px-9 font-bold shadow-xl">
               Enroll Now
             </a>
             <a
@@ -67,7 +69,7 @@ export default function Footer() {
 
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-2">
-            <a href="#home" className="flex items-center gap-2.5 mb-5">
+            <Link to="/" className="flex items-center gap-2.5 mb-5">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-oxford-600 to-blue-500 flex items-center justify-center">
                 <GraduationCap size={22} className="text-white" />
               </div>
@@ -75,7 +77,7 @@ export default function Footer() {
                 <span className="block text-lg font-bold text-white">Oxford <span className="text-gold-400">Group</span></span>
                 <span className="block text-[10px] text-gray-500 uppercase tracking-widest">Language Center</span>
               </div>
-            </a>
+            </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-xs">
               Morocco's leading language education group. Empowering students since 2010 to communicate confidently with the world.
             </p>
@@ -119,7 +121,7 @@ export default function Footer() {
                 {links.map(link => (
                   <li key={link.label}>
                     <a
-                      href={link.href}
+                      href={link.href.startsWith('#') ? withHomeHash(link.href.slice(1)) : link.href}
                       className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
                     >
                       {link.label}
