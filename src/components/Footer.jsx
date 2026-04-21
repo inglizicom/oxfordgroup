@@ -21,6 +21,7 @@ const LINKS = {
   'Company': [
     { label: 'About Us',               href: '#' },
     { label: 'Our Teachers',           href: '#teachers' },
+    { label: 'Verify certificate',     to: '/certificate' },
     { label: 'Careers',                href: 'mailto:careers@oxfordgroup.ma' },
     { label: 'Testimonials',           href: '#testimonials' },
     { label: 'Blog',                   href: '#' },
@@ -120,12 +121,21 @@ export default function Footer() {
               <ul className="space-y-3">
                 {links.map(link => (
                   <li key={link.label}>
-                    <a
-                      href={link.href.startsWith('#') ? withHomeHash(link.href.slice(1)) : link.href}
-                      className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
-                    >
-                      {link.label}
-                    </a>
+                    {link.to ? (
+                      <Link
+                        to={link.to}
+                        className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href.startsWith('#') ? withHomeHash(link.href.slice(1)) : link.href}
+                        className="text-sm hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -18,6 +18,7 @@ const NAV_LINKS = [
       { label: 'Our cities',            href: '#map' },
     ],
   },
+  { label: 'Certificate', to: '/certificate' },
 ]
 
 function sectionHref(h) {
@@ -61,6 +62,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [isHome])
 
+  const isNavLinkActive = (link) => {
+    if (link.to) return pathname === link.to
+    if (link.href) return activeNav === link.href.replace('#', '')
+    return false
+  }
+
   const navClass = (lightOnHero
     ? 'bg-transparent'
     : 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100')
@@ -102,32 +109,46 @@ export default function Navbar() {
                   onMouseEnter={() => link.children && setDropdownOpen(link.label)}
                   onMouseLeave={() => setDropdownOpen(null)}
                 >
-                  <a
-                    href={sectionHref(link.href)}
-                    className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-                      ${activeNav === link.href.replace('#', '')
-                        ? (lightOnHero ? 'text-white bg-white/20' : 'text-oxford-700 bg-oxford-50')
-                        : (lightOnHero ? 'text-blue-100 hover:text-white hover:bg-white/20' : 'text-gray-600 hover:text-oxford-700 hover:bg-oxford-50')
-                      }`}
-                    aria-current={activeNav === link.href.replace('#', '') ? 'page' : undefined}
-                  >
-                    {link.label}
-                    {link.children && <ChevronDown size={14} className={`transition-transform duration-200 ${dropdownOpen === link.label ? 'rotate-180' : ''}`} />}
-                  </a>
-
-                  {/* Dropdown */}
-                  {link.children && dropdownOpen === link.label && (
-                    <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-slide-up">
-                      {link.children.map(child => (
-                        <a
-                          key={child.label}
-                          href={sectionHref(child.href)}
-                          className="block px-5 py-3 text-sm text-gray-700 hover:bg-oxford-50 hover:text-oxford-700 transition-colors duration-150"
-                        >
-                          {child.label}
-                        </a>
-                      ))}
-                    </div>
+                  {link.to ? (
+                    <Link
+                      to={link.to}
+                      className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                        ${isNavLinkActive(link)
+                          ? (lightOnHero ? 'text-white bg-white/20' : 'text-oxford-700 bg-oxford-50')
+                          : (lightOnHero ? 'text-blue-100 hover:text-white hover:bg-white/20' : 'text-gray-600 hover:text-oxford-700 hover:bg-oxford-50')
+                        }`}
+                      aria-current={isNavLinkActive(link) ? 'page' : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <>
+                      <a
+                        href={sectionHref(link.href)}
+                        className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                          ${isNavLinkActive(link)
+                            ? (lightOnHero ? 'text-white bg-white/20' : 'text-oxford-700 bg-oxford-50')
+                            : (lightOnHero ? 'text-blue-100 hover:text-white hover:bg-white/20' : 'text-gray-600 hover:text-oxford-700 hover:bg-oxford-50')
+                          }`}
+                        aria-current={isNavLinkActive(link) ? 'page' : undefined}
+                      >
+                        {link.label}
+                        {link.children && <ChevronDown size={14} className={`transition-transform duration-200 ${dropdownOpen === link.label ? 'rotate-180' : ''}`} />}
+                      </a>
+                      {link.children && dropdownOpen === link.label && (
+                        <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-slide-up">
+                          {link.children.map(child => (
+                            <a
+                              key={child.label}
+                              href={sectionHref(child.href)}
+                              className="block px-5 py-3 text-sm text-gray-700 hover:bg-oxford-50 hover:text-oxford-700 transition-colors duration-150"
+                            >
+                              {child.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               ))}
@@ -168,26 +189,38 @@ export default function Navbar() {
           <div className="px-4 py-4 space-y-1">
             {NAV_LINKS.map(link => (
               <div key={link.label}>
-                <a
-                  href={sectionHref(link.href)}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-oxford-50 hover:text-oxford-700 transition-colors duration-150"
-                >
-                  {link.label}
-                </a>
-                {link.children && (
-                  <div className="ml-6 mt-1 space-y-1">
-                    {link.children.map(child => (
-                      <a
-                        key={child.label}
-                        href={sectionHref(child.href)}
-                        onClick={() => setOpen(false)}
-                        className="block px-4 py-2 text-sm text-gray-500 hover:text-oxford-700 hover:bg-oxford-50 rounded-lg transition-colors"
-                      >
-                        {child.label}
-                      </a>
-                    ))}
-                  </div>
+                {link.to ? (
+                  <Link
+                    to={link.to}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-2 px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-oxford-50 hover:text-oxford-700 transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <>
+                    <a
+                      href={sectionHref(link.href)}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-2 px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-oxford-50 hover:text-oxford-700 transition-colors duration-150"
+                    >
+                      {link.label}
+                    </a>
+                    {link.children && (
+                      <div className="ml-6 mt-1 space-y-1">
+                        {link.children.map(child => (
+                          <a
+                            key={child.label}
+                            href={sectionHref(child.href)}
+                            onClick={() => setOpen(false)}
+                            className="block px-4 py-2 text-sm text-gray-500 hover:text-oxford-700 hover:bg-oxford-50 rounded-lg transition-colors"
+                          >
+                            {child.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             ))}
