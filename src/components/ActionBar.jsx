@@ -1,26 +1,27 @@
 import { CalendarDays, Info, UserPlus, MessageCircle } from 'lucide-react'
+import { withHomeHash } from '../utils/homeLink'
 
 const ACTIONS = [
   {
     icon: <CalendarDays size={20} />,
     label: 'Book a Lesson Now',
-    href: '#contact',
-    bg: 'from-blue-500 to-blue-600',
+    href: withHomeHash('contact'),
+    bg: 'from-oxford-600 to-blue-600',
     shadow: 'shadow-blue-500/30',
     hoverShadow: 'hover:shadow-blue-500/50',
   },
   {
     icon: <Info size={20} />,
-    label: 'More Info',
-    href: '#branches',
-    bg: 'from-violet-500 to-purple-600',
-    shadow: 'shadow-purple-500/30',
-    hoverShadow: 'hover:shadow-purple-500/50',
+    label: 'Our schools',
+    href: withHomeHash('our-schools'),
+    bg: 'from-indigo-600 to-oxford-700',
+    shadow: 'shadow-indigo-500/30',
+    hoverShadow: 'hover:shadow-indigo-500/50',
   },
   {
     icon: <UserPlus size={20} />,
     label: 'Sign Up Today',
-    href: '#contact',
+    href: withHomeHash('contact'),
     bg: 'from-gold-500 to-orange-500',
     shadow: 'shadow-amber-500/30',
     hoverShadow: 'hover:shadow-amber-500/50',

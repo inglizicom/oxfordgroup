@@ -224,10 +224,33 @@ export const TEACHERS = [
   },
 ]
 
-export function getTeachersForSelection(branchId, language, level) {
-  return TEACHERS.filter(t =>
-    t.teaches.some(
-      s => s.branchId === branchId && s.language === language && s.level === level
-    )
+/** True if this teacher offers (language, level) at the selected center. */
+export function teacherAtCenterForLevel(teacher, branchId, language, level) {
+  return teacher.teaches.some(
+    s => s.branchId === branchId && s.language === language && s.level === level
   )
+}
+
+/**
+ * All teachers who teach this language + CEFR level at any Oxford Group brand,
+ * sorted with the selected center’s team first, then by rating.
+ * Gives learners several profiles to compare, not just one match.
+ */
+export function getTeachersForSelection(branchId, language, level) {
+  const matches = TEACHERS.filter(t =>
+    t.teaches.some(s => s.language === language && s.level === level)
+  )
+  const seen = new Set()
+  return matches
+    .filter((t) => {
+      if (seen.has(t.id)) return false
+      seen.add(t.id)
+      return true
+    })
+    .sort((a, b) => {
+      const aHere = teacherAtCenterForLevel(a, branchId, language, level)
+      const bHere = teacherAtCenterForLevel(b, branchId, language, level)
+      if (aHere !== bHere) return aHere ? -1 : 1
+      return (b.rating ?? 0) - (a.rating ?? 0)
+    })
 }

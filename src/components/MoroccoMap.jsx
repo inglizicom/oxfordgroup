@@ -116,7 +116,7 @@ export default function MoroccoMap() {
   return (
     <section
       id="map"
-      className="py-24 bg-gradient-to-b from-oxford-900 to-oxford-800 relative overflow-hidden"
+      className="py-24 bg-gradient-to-b from-oxford-900 via-oxford-800 to-oxford-900 relative overflow-hidden border-t border-slate-200/20"
       aria-labelledby="map-heading"
     >
       {/* Background grid */}

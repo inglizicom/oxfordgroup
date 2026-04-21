@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, Play, ArrowRight, Trophy, Star, MapPin, X as XIcon } from 'lucide-react'
+import { withHomeHash } from '../utils/homeLink'
 
 const HUMAN_AVATARS = [
   'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face',
@@ -162,7 +163,7 @@ export default function Hero() {
               className="flex flex-wrap items-center gap-4 animate-slide-up"
               style={{ animationDelay: '0.3s' }}
             >
-              <a href="#contact" className="btn-gold group text-base py-4 px-8 font-bold">
+              <a href={withHomeHash('contact')} className="btn-gold group text-base py-4 px-8 font-bold">
                 {slide.cta1}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
               </a>
@@ -177,7 +178,7 @@ export default function Hero() {
                 {slide.cta2}
               </button>
               <a
-                href="#our-schools"
+                href={withHomeHash('our-schools')}
                 className="text-blue-200 hover:text-white text-sm font-medium underline underline-offset-4 hover:underline-offset-2 transition-all duration-200"
               >
                 Our schools & formats ↓

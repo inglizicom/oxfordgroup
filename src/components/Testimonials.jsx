@@ -99,7 +99,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 bg-gradient-to-br from-oxford-900 to-oxford-800 relative overflow-hidden"
+      className="py-24 bg-gradient-to-br from-oxford-900 via-oxford-800 to-slate-900 relative overflow-hidden border-t border-slate-700/30"
       aria-labelledby="testimonials-heading"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}

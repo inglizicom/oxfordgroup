@@ -6,17 +6,16 @@ import { withHomeHash } from '../utils/homeLink'
 const NAV_LINKS = [
   { label: 'Home',         href: '#home' },
   { label: 'Our schools',  href: '#our-schools' },
-  { label: 'Branches',   href: '#branches' },
-  { label: 'Teachers',   href: '#teachers' },
-  { label: 'Students',    href: '#testimonials' },
+  { label: 'Teachers',     href: '#teachers' },
+  { label: 'Students',     href: '#testimonials' },
   {
-    label: 'Courses',
-    href: '#branches',
+    label: 'Programs',
+    href: '#our-schools',
     children: [
-      { label: 'English Courses',         href: '#branches' },
-      { label: 'French Courses',         href: '#branches' },
-      { label: 'Classes Préparatoires',  href: '#branches' },
-      { label: 'Online programs',        href: '#our-schools' },
+      { label: 'English & French',      href: '#our-schools' },
+      { label: 'Classes Préparatoires', href: '#placement' },
+      { label: 'Placement test',        href: '#placement' },
+      { label: 'Our cities',            href: '#map' },
     ],
   },
 ]
@@ -39,7 +38,7 @@ export default function Navbar() {
     const onScroll = () => {
       if (isHome) {
         setScrolled(window.scrollY > 20)
-        const sections = ['home', 'our-schools', 'branches', 'teachers', 'testimonials', 'map']
+        const sections = ['home', 'our-schools', 'teachers', 'map', 'testimonials', 'placement', 'contact']
         for (const id of sections) {
           const sectionEl = document.getElementById(id)
           if (sectionEl) {

@@ -11,7 +11,7 @@ export default function PlacementTest() {
   return (
     <section
       id="placement"
-      className="py-24 bg-gradient-to-r from-oxford-700 via-blue-600 to-oxford-600 relative overflow-hidden"
+      className="py-24 bg-gradient-to-br from-oxford-800 via-oxford-700 to-blue-800 relative overflow-hidden border-t border-white/5"
       aria-labelledby="placement-heading"
     >
       {/* Decorative circles */}

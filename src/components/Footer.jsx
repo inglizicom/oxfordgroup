@@ -4,19 +4,19 @@ import { withHomeHash } from '../utils/homeLink'
 
 const LINKS = {
   'Learn': [
-    { label: 'English Courses',        href: '#branches' },
-    { label: 'French Courses',         href: '#branches' },
-    { label: 'Kids & Teens',           href: '#branches' },
+    { label: 'English Courses',        href: '#our-schools' },
+    { label: 'French Courses',         href: '#our-schools' },
+    { label: 'Kids & Teens',           href: '#our-schools' },
     { label: 'Our schools',            href: '#our-schools' },
-    { label: 'Classes Préparatoires',  href: '#branches' },
+    { label: 'Classes Préparatoires',  href: '#placement' },
     { label: 'Corporate Training',     href: '#contact' },
   ],
   'Centers': [
-    { label: 'Oxford',                 href: '#branches' },
-    { label: 'Oxford Academy',         href: '#branches' },
-    { label: 'Smart Generations',      href: '#branches' },
-    { label: 'Bridge',                 href: '#branches' },
-    { label: 'Englishy',               href: '#branches' },
+    { label: 'Oxford',                 href: '#our-schools' },
+    { label: 'Oxford Academy',         href: '#our-schools' },
+    { label: 'Smart Generations',      href: '#our-schools' },
+    { label: 'Bridge',                 href: '#our-schools' },
+    { label: 'Englishy',               href: '#our-schools' },
   ],
   'Company': [
     { label: 'About Us',               href: '#' },

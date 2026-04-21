@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Building2, Monitor, MapPinned, CheckCircle2, Star, Users, Clock, BookMarked, Banknote } from 'lucide-react'
-import { BRANCHES, getTeachersForSelection } from '../data/branchesAndTeachers'
+import { Building2, Monitor, MapPinned, CheckCircle2, Star, Users, BookMarked, Banknote } from 'lucide-react'
+import { BRANCHES, getTeachersForSelection, teacherAtCenterForLevel } from '../data/branchesAndTeachers'
 import { LANGUAGE_META } from '../data/languageFlags'
 import { getTeacherById } from '../data/teacherProfiles'
 import { withHomeHash } from '../utils/homeLink'
@@ -37,12 +37,12 @@ function languageLabelsForTeacher(teacher) {
 /** Islamic / Moroccan–inspired subtle backdrop */
 function GeometricBackdrop() {
   return (
-    <div className="pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 opacity-[0.04] text-oxford-300" aria-hidden="true">
       <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="islamic-star" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M20 0 L24 12 L20 8 L16 12 Z M0 20 L12 16 L8 20 L12 24 Z" fill="currentColor" className="text-amber-200" />
-            <path d="M20 20 L20 40 M40 20 L0 20" stroke="currentColor" className="text-emerald-200" strokeWidth="0.5" />
+            <path d="M20 0 L24 12 L20 8 L16 12 Z M0 20 L12 16 L8 20 L12 24 Z" fill="currentColor" />
+            <path d="M20 20 L20 40 M40 20 L0 20" stroke="currentColor" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#islamic-star)" />
@@ -92,17 +92,18 @@ export default function OurSchools() {
   return (
     <section
       id="our-schools"
-      className="relative overflow-hidden py-20 md:py-24 bg-slate-950"
+      className="relative overflow-hidden py-20 md:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-100/90 border-y border-slate-200/80"
       aria-labelledby="our-schools-heading"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_0%,rgba(16,185,129,0.12),transparent)]" />
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_50%_at_50%_-10%,rgba(30,64,175,0.08),transparent)]" />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-          <h2 id="our-schools-heading" className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-emerald-300">schools</span>
+          <span className="section-label">Choose your path</span>
+          <h2 id="our-schools-heading" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Our <span className="gradient-text">schools</span>
           </h2>
-          <p className="mt-3 text-slate-400 text-sm sm:text-base">
-            Choose <strong className="text-slate-200">in-center</strong> or <strong className="text-slate-200">online</strong>. The next steps open only as you go — nothing is shown until you choose.
+          <p className="mt-3 text-slate-600 text-sm sm:text-base">
+            Pick <strong className="text-oxford-800">in-center</strong> or <strong className="text-oxford-800">online</strong>. Each next step appears only when you are ready.
           </p>
         </div>
 
@@ -118,7 +119,7 @@ export default function OurSchools() {
                   type="button"
                   onClick={() => selectFormat(mode.id)}
                   className={`text-left w-full min-h-[200px] rounded-2xl p-1 transition-all
-                    ${active ? 'ring-2 ring-emerald-400/60 shadow-lg' : 'ring-1 ring-white/10 hover:ring-amber-400/30'}`}
+                    ${active ? 'ring-2 ring-oxford-500 shadow-xl' : 'ring-1 ring-slate-200 hover:ring-amber-400/60 shadow-sm'}`}
                 >
                   <div className={`rounded-[0.9rem] bg-gradient-to-br ${mode.gradient} p-5 h-full flex flex-col border border-white/10`}>
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 text-white">
@@ -136,12 +137,12 @@ export default function OurSchools() {
               <>
                 {renderMode(modeIn)}
                 <div className="flex flex-col items-center justify-center text-center py-2">
-                  <div className="h-24 w-24 md:h-28 md:w-28 rounded-full bg-slate-900/90 p-1.5 ring-1 ring-white/15">
-                    <div className="h-full w-full rounded-full bg-gradient-to-br from-emerald-700 to-oxford-800 flex items-center justify-center p-2">
+                  <div className="h-24 w-24 md:h-28 md:w-28 rounded-full bg-white p-1.5 ring-2 ring-oxford-200/80 shadow-md">
+                    <div className="h-full w-full rounded-full bg-gradient-to-br from-oxford-700 to-blue-600 flex items-center justify-center p-2">
                       <img src={mainLogo} alt="" className="h-12 w-12 object-contain" width={48} height={48} />
                     </div>
                   </div>
-                  <p className="mt-2 text-sm font-bold text-slate-300">Oxford Group</p>
+                  <p className="mt-2 text-sm font-bold text-slate-800">Oxford Group</p>
                 </div>
                 {renderMode(modeOn)}
               </>
@@ -153,17 +154,17 @@ export default function OurSchools() {
         {format && (
           <div
             ref={flowRef}
-            className="mt-10 space-y-8 rounded-3xl border border-white/10 bg-slate-900/50 p-5 md:p-8 backdrop-blur-sm"
+            className="mt-10 space-y-8 rounded-3xl border border-slate-200/90 bg-white/95 p-5 md:p-8 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.15)]"
             id="our-schools-flow"
           >
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
-              <p className="text-sm text-amber-100/80">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+              <p className="text-sm font-medium text-oxford-800">
                 {format === 'in-center' ? 'In-center' : 'Online'} path
               </p>
               <button
                 type="button"
                 onClick={() => { setFormat(null); setBranchId(null); setLanguage(''); setLevel('') }}
-                className="text-xs font-semibold text-slate-400 hover:text-white"
+                className="text-xs font-semibold text-slate-500 hover:text-oxford-700"
               >
                 Start over
               </button>
@@ -171,8 +172,8 @@ export default function OurSchools() {
 
             {/* 1) Centers with logo */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-300/80 mb-3 flex items-center gap-2">
-                <MapPinned size={14} />
+              <h3 className="text-xs font-bold uppercase tracking-widest text-oxford-600 mb-3 flex items-center gap-2">
+                <MapPinned size={14} className="text-gold-500" />
                 1 — Choose a center
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -183,8 +184,8 @@ export default function OurSchools() {
                     onClick={() => selectBranch(b.id)}
                     className={`flex flex-col items-center rounded-2xl p-3 text-center transition-all border-2
                       ${branchId === b.id
-                        ? 'border-amber-400/70 bg-amber-500/10'
-                        : 'border-white/5 bg-slate-800/40 hover:border-white/20'
+                        ? 'border-oxford-500 bg-oxford-50 ring-1 ring-oxford-200/60'
+                        : 'border-slate-200 bg-slate-50/80 hover:border-oxford-300 hover:bg-white'
                       }`}
                   >
                     <div
@@ -192,8 +193,8 @@ export default function OurSchools() {
                     >
                       {b.name.split(' ').map(w => w[0]).join('').slice(0, 2)}
                     </div>
-                    <span className="mt-2 text-xs font-bold text-white leading-tight">{b.name}</span>
-                    {format === 'online' && <span className="mt-0.5 text-[10px] text-emerald-300">Online</span>}
+                    <span className="mt-2 text-xs font-bold text-slate-800 leading-tight">{b.name}</span>
+                    {format === 'online' && <span className="mt-0.5 text-[10px] text-emerald-600 font-semibold">Online</span>}
                   </button>
                 ))}
               </div>
@@ -202,13 +203,13 @@ export default function OurSchools() {
             {/* 2) Language — native select, nothing else yet */}
             {activeBranch && (
               <div className="animate-fadeIn">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-300/80 mb-2">2 — Language</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-oxford-600 mb-2">2 — Language</h3>
                 <label htmlFor="school-lang" className="sr-only">Language</label>
                 <select
                   id="school-lang"
                   value={language}
                   onChange={(e) => { setLanguage(e.target.value); setLevel('') }}
-                  className="w-full max-w-md rounded-2xl border-2 border-white/15 bg-slate-900 px-4 py-3.5 text-white font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/50"
+                  className="w-full max-w-md rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-slate-900 font-medium focus:border-oxford-500 focus:outline-none focus:ring-2 focus:ring-oxford-500/20"
                 >
                   <option value="" disabled>Choose a language</option>
                   {activeBranch.languages.map((l) => (
@@ -223,10 +224,10 @@ export default function OurSchools() {
             {/* 3) Level — only after language; scroll-style list in a max-height box */}
             {activeBranch && language && langConfig && (
               <div className="animate-fadeIn">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-300/80 mb-3">3 — Level (CEFR)</h3>
-                <div className="rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-950/40 to-slate-900/80 p-4 max-w-lg">
-                  <p className="text-xs text-emerald-200/80 mb-3">Open this list and scroll—tap a level to continue.</p>
-                  <div className="max-h-44 overflow-y-auto pr-1 space-y-1.5 custom-scrollbar">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-oxford-600 mb-3">3 — Level (CEFR)</h3>
+                <div className="rounded-2xl border-2 border-oxford-200/80 bg-slate-50/90 p-4 max-w-lg">
+                  <p className="text-xs text-slate-600 mb-3">Scroll the list, then tap your level.</p>
+                  <div className="max-h-44 overflow-y-auto pr-1 space-y-1.5 custom-scrollbar-slate">
                     {langConfig.levels.map((lv) => (
                       <button
                         type="button"
@@ -234,12 +235,12 @@ export default function OurSchools() {
                         onClick={() => setLevel(lv)}
                         className={`w-full text-left flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-bold transition-all
                           ${level === lv
-                            ? 'bg-amber-500/20 text-amber-100 border border-amber-400/50'
-                            : 'bg-slate-800/60 text-slate-200 border border-white/5 hover:border-emerald-400/30'
+                            ? 'bg-oxford-600 text-white border border-oxford-700 shadow-sm'
+                            : 'bg-white text-slate-800 border border-slate-200 hover:border-oxford-400/60'
                           }`}
                       >
                         <span>Level {lv}</span>
-                        {level === lv && <CheckCircle2 className="text-amber-300 shrink-0" size={18} />}
+                        {level === lv && <CheckCircle2 className="text-amber-200 shrink-0" size={18} />}
                       </button>
                     ))}
                   </div>
@@ -251,89 +252,76 @@ export default function OurSchools() {
             {activeBranch && language && level && (
               <div
                 id="teachers"
-                className="relative scroll-mt-28 rounded-3xl border-2 border-emerald-500/30 overflow-hidden"
+                className="relative scroll-mt-28 rounded-3xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/90 overflow-hidden shadow-sm"
               >
                 <GeometricBackdrop />
-                <div className="relative p-5 md:p-8 bg-gradient-to-b from-emerald-950/90 via-slate-950/95 to-slate-950">
-                  <h3 className="text-lg font-bold text-amber-100 flex items-center gap-2">
-                    <span className="h-1 w-8 bg-gradient-to-r from-amber-400 to-emerald-500 rounded-full" />
-                    Instructors
+                <div className="relative p-5 md:p-8">
+                  <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <span className="h-1 w-8 bg-gradient-to-r from-oxford-600 to-gold-500 rounded-full" />
+                    Compare instructors
                   </h3>
-                  <p className="text-sm text-emerald-100/70 mt-1 mb-6">
-                    {activeBranch.name} · {langConfig?.label} · {level} — our teachers are selected for experience and a respectful, professional approach for learners in Morocco and beyond.
+                  <p className="text-sm text-slate-600 mt-1 mb-6 max-w-2xl">
+                    {activeBranch.name} · {langConfig?.label} · {level} — we list every qualified profile across the group.
+                    <span className="text-slate-500"> Instructors for your center appear first; others can often teach you online or transfer.</span>
                   </p>
 
                   {teachers.length === 0 ? (
-                    <p className="text-slate-300 text-sm">
-                      No listed teacher for this exact combination. Try another level, or
-                      <a className="text-amber-200 underline ml-1" href={withHomeHash('contact')}>contact an advisor</a>.
+                    <p className="text-slate-600 text-sm">
+                      No profile for this combination yet. Try another level, or
+                      <a className="text-oxford-700 font-semibold underline ml-1" href={withHomeHash('contact')}>contact an advisor</a>.
                     </p>
                   ) : (
-                    <ul className="space-y-5">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 list-none p-0 m-0">
                       {teachers.map((raw) => {
                         const t = getTeacherById(raw.id)
                         if (!t) return null
+                        const atThisCenter = teacherAtCenterForLevel(t, branchId, language, level)
                         return (
                           <li
                             key={t.id}
-                            className="flex flex-col sm:flex-row gap-4 p-4 rounded-2xl border border-emerald-800/30 bg-slate-900/60"
+                            className="flex flex-col rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm hover:shadow-md hover:border-oxford-200 transition-all"
                           >
-                            <div className="shrink-0 flex justify-center sm:block">
-                              <div className="h-28 w-28 rounded-2xl overflow-hidden ring-2 ring-amber-500/20">
+                            <div className="relative">
+                              <div className="h-40 w-full rounded-xl overflow-hidden bg-slate-100">
                                 <img src={t.photo} alt="" className="h-full w-full object-cover object-top" loading="lazy" />
                               </div>
+                              {atThisCenter ? (
+                                <span className="absolute top-2 left-2 rounded-full bg-oxford-600/95 text-white text-[10px] font-bold px-2.5 py-0.5 shadow">
+                                  At {activeBranch.name}
+                                </span>
+                              ) : (
+                                <span className="absolute top-2 left-2 rounded-full bg-slate-800/90 text-amber-200 text-[10px] font-bold px-2.5 py-0.5 shadow">
+                                  Oxford network
+                                </span>
+                              )}
                             </div>
-                            <div className="flex-1 min-w-0 text-left">
+                            <div className="pt-3 flex-1 flex flex-col min-w-0">
                               <div className="flex flex-wrap items-center gap-2">
-                                <h4 className="text-xl font-bold text-white">{t.name}</h4>
-                                <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-500/15 px-2 py-0.5 text-amber-200 text-xs font-bold">
-                                  <Star size={12} className="fill-amber-300" /> {t.rating}
+                                <h4 className="text-lg font-bold text-slate-900 leading-tight">{t.name}</h4>
+                                <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 text-amber-800 px-2 py-0.5 text-xs font-bold border border-amber-200/80">
+                                  <Star size={12} className="fill-amber-500 text-amber-500" /> {t.rating}
                                 </span>
                               </div>
-                              <p className="text-emerald-200/80 text-sm font-medium">{t.role}</p>
-                              <p className="text-slate-300 text-sm mt-2 line-clamp-2">{t.introWork || t.specialty}</p>
-                              <dl className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">Languages</dt>
-                                  <dd className="text-white font-medium">{languageLabelsForTeacher(t)}</dd>
-                                </div>
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">Levels</dt>
-                                  <dd className="text-white font-medium">{t.levelsTaught}</dd>
-                                </div>
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">Learners (total)</dt>
-                                  <dd className="text-white font-medium flex items-center gap-1">
-                                    <Users size={12} className="text-emerald-400" />
-                                    {t.totalStudentsTaught?.toLocaleString?.() ?? t.totalStudentsTaught}
-                                  </dd>
-                                </div>
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">Hours taught</dt>
-                                  <dd className="text-white font-medium flex items-center gap-1">
-                                    <Clock size={12} className="text-emerald-400" />
-                                    {t.totalHoursTaught?.toLocaleString?.() ?? t.totalHoursTaught} h
-                                  </dd>
-                                </div>
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">Current students</dt>
-                                  <dd className="text-white font-medium">{t.currentStudents}</dd>
-                                </div>
-                                <div className="rounded-lg bg-slate-800/50 p-2 border border-white/5">
-                                  <dt className="text-slate-500">From</dt>
-                                  <dd className="text-white font-medium flex items-center gap-1">
-                                    <Banknote size={12} className="text-amber-400" />
-                                    {t.pricePerHourMad} MAD/hr
-                                  </dd>
-                                </div>
-                              </dl>
-                              <p className="mt-2 text-xs text-slate-400 flex items-start gap-1.5">
-                                <BookMarked size={14} className="shrink-0 text-emerald-500 mt-0.5" />
-                                <span>Current: {t.currentLesson}</span>
+                              <p className="text-oxford-700/90 text-sm font-medium">{t.role}</p>
+                              <p className="text-slate-600 text-sm mt-2 line-clamp-2 flex-1">{t.introWork || t.specialty}</p>
+                              <div className="mt-3 flex flex-wrap gap-1.5 text-[11px] text-slate-600">
+                                <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium border border-slate-200/80">{languageLabelsForTeacher(t)}</span>
+                                <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium border border-slate-200/80">{t.levelsTaught}</span>
+                                <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium border border-slate-200/80 flex items-center gap-0.5">
+                                  <Users size={11} />{t.currentStudents} now
+                                </span>
+                                <span className="rounded-md bg-slate-100 px-2 py-0.5 font-medium border border-slate-200/80 flex items-center gap-0.5">
+                                  <Banknote size={11} className="text-amber-600" />
+                                  {t.pricePerHourMad} MAD/hr
+                                </span>
+                              </div>
+                              <p className="mt-2 text-xs text-slate-500 line-clamp-2 flex items-start gap-1">
+                                <BookMarked size={12} className="shrink-0 text-oxford-500 mt-0.5" />
+                                {t.currentLesson}
                               </p>
                               <Link
                                 to={`/teacher/${t.id}`}
-                                className="mt-4 inline-flex items-center justify-center w-full sm:w-auto rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3 text-sm font-bold text-slate-900 shadow-lg hover:from-amber-400 hover:to-amber-500 transition-all"
+                                className="mt-4 btn-primary justify-center w-full text-sm py-2.5"
                               >
                                 Choose this teacher
                               </Link>
@@ -351,9 +339,9 @@ export default function OurSchools() {
       </div>
 
       <style>{`
-        .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(16,185,129,0.5) transparent; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(16,185,129,0.4); border-radius: 10px; }
+        .custom-scrollbar-slate { scrollbar-width: thin; scrollbar-color: rgba(30,64,175,0.4) transparent; }
+        .custom-scrollbar-slate::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar-slate::-webkit-scrollbar-thumb { background: rgba(30,64,175,0.35); border-radius: 10px; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         .animate-fadeIn { animation: fadeIn 0.35s ease both; }
       `}</style>

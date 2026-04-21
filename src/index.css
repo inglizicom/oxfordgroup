@@ -11,7 +11,7 @@
   }
 
   body {
-    @apply antialiased text-gray-800 bg-white;
+    @apply antialiased text-slate-800 bg-slate-50;
     overflow-x: hidden;
   }
 
@@ -64,8 +64,8 @@
 
   /* ── Section headings ─────────────────────────────────── */
   .section-label {
-    @apply inline-block text-sm font-semibold uppercase tracking-widest text-oxford-600
-           bg-oxford-50 px-4 py-1.5 rounded-full mb-4;
+    @apply inline-block text-sm font-semibold uppercase tracking-widest text-oxford-700
+           bg-oxford-50/90 px-4 py-1.5 rounded-full mb-4 border border-oxford-100/80;
   }
 
   .section-title {

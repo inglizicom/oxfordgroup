@@ -50,7 +50,7 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <section id="contact" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      <section id="contact" className="py-24 bg-gradient-to-b from-slate-100 to-white border-t border-slate-200/80">
         <div className="max-w-lg mx-auto px-4 text-center">
           <div className="bg-white rounded-3xl p-12 shadow-xl border border-green-100">
             <CheckCircle size={56} className="text-green-500 mx-auto mb-5" />
@@ -74,7 +74,7 @@ export default function ContactForm() {
   }
 
   return (
-    <section id="contact" className="py-24 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="contact-heading">
+    <section id="contact" className="py-24 bg-gradient-to-b from-slate-100 to-white border-t border-slate-200/80" aria-labelledby="contact-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 
