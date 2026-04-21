@@ -1,28 +1,11 @@
 import { useParams, Link } from 'react-router-dom'
 import {
-  Star, BookOpen, Award, Briefcase, Globe, Clock, Banknote, GraduationCap,
-  Target, Users, Calendar, Sparkles, Activity, MapPin, ArrowLeft,
+  Star, BookOpen, Award, Briefcase, Globe, GraduationCap, Target, Calendar, Sparkles, MapPin, ArrowLeft, BarChart3,
 } from 'lucide-react'
 import { getTeacherById } from '../data/teacherProfiles'
 import { LANGUAGE_META } from '../data/languageFlags'
 import { withHomeHash } from '../utils/homeLink'
-
-function StatPill({ icon: Icon, label, value, sub, wide }) {
-  return (
-    <div className={`rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm hover:shadow transition-shadow ${wide ? 'sm:col-span-2' : ''}`}>
-      <div className="flex items-start gap-3">
-        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-oxford-50 to-blue-50 text-oxford-700">
-          <Icon size={20} />
-        </span>
-        <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
-          <p className="text-base sm:text-lg font-bold text-slate-900 leading-snug mt-0.5">{value}</p>
-          {sub && <p className="text-xs text-slate-500 mt-0.5">{sub}</p>}
-        </div>
-      </div>
-    </div>
-  )
-}
+import TeacherProfileCharts from '../components/TeacherProfileCharts'
 
 export default function TeacherProfilePage() {
   const { id } = useParams()
@@ -44,36 +27,30 @@ export default function TeacherProfilePage() {
 
   return (
     <main className="min-h-screen bg-slate-100 pb-24 md:pb-12 pt-0">
-      {/* Hero band (padding-top clears fixed app navbar) */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-oxford-900 to-blue-900 text-white pt-20 md:pt-24">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          className="pointer-events-none absolute inset-0 opacity-[0.1]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")`,
+            backgroundImage: 'radial-gradient(ellipse 80% 50% at 30% 0%, rgba(251,191,36,0.15), transparent)',
           }}
         />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pb-28 sm:pb-32">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8 text-sm">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 font-medium text-blue-200 hover:text-white"
-            >
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 text-sm">
+            <Link to="/" className="inline-flex items-center gap-1.5 font-medium text-slate-300 hover:text-white">
               <ArrowLeft size={16} />
               Home
             </Link>
-            <span className="text-slate-500">·</span>
-            <a
-              href={withHomeHash('our-schools')}
-              className="font-medium text-amber-200/90 hover:text-white"
-            >
+            <span className="text-slate-600">·</span>
+            <a href={withHomeHash('our-schools')} className="font-medium text-amber-200/90 hover:text-white">
               School finder
             </a>
           </div>
+
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-end">
-            <div className="lg:col-span-5 flex justify-center lg:justify-start">
-              <div className="relative">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-amber-400/40 to-blue-500/30 blur-sm" />
-                <div className="relative w-56 sm:w-64 h-64 sm:h-72 rounded-3xl overflow-hidden ring-2 ring-white/20 shadow-2xl bg-slate-800">
+            <div className="lg:col-span-4 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-xs">
+                <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-tr from-amber-300/50 to-sky-500/40 blur-md" />
+                <div className="relative aspect-[4/5] max-h-80 w-full rounded-3xl overflow-hidden ring-1 ring-white/20 shadow-2xl bg-slate-800">
                   <img
                     src={t.photo}
                     alt={t.name}
@@ -82,18 +59,18 @@ export default function TeacherProfilePage() {
                     height={500}
                   />
                 </div>
-                <div className="absolute -bottom-3 -right-2 rounded-2xl bg-slate-950/90 px-3 py-1.5 border border-amber-400/40 text-xs font-bold flex items-center gap-1.5 shadow-lg">
-                  <Star size={12} className="fill-amber-400 text-amber-400" />
-                  {t.rating} · Top rated
+                <div className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-slate-950/80 px-3 py-2 text-xs font-bold text-amber-200 border border-amber-400/20">
+                  <Star size={14} className="fill-amber-400 text-amber-400" />
+                  {t.rating} / 5.0
                 </div>
               </div>
             </div>
-            <div className="lg:col-span-7 text-center lg:text-left pb-2">
-              <p className="text-amber-200/80 text-sm font-semibold uppercase tracking-widest mb-2">{t.role}</p>
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white leading-[1.1]">
+            <div className="lg:col-span-8 text-center lg:text-left">
+              <p className="text-amber-200/80 text-xs font-bold uppercase tracking-widest mb-2">{t.role}</p>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
                 {t.name}
               </h1>
-              <p className="mt-3 text-lg text-blue-100/90 max-w-xl mx-auto lg:mx-0">
+              <p className="mt-2 text-slate-300 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0">
                 {t.specialty}
               </p>
               {teachingLanguages.length > 0 && (
@@ -101,13 +78,13 @@ export default function TeacherProfilePage() {
                   {teachingLanguages.map((lang) => (
                     <li
                       key={lang}
-                      className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-semibold text-white/95 backdrop-blur-sm"
+                      className="rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold"
                     >
                       {lang}
                     </li>
                   ))}
-                  <li className="rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-sm font-semibold text-amber-100">
-                    {t.levelsTaught} · CEFR
+                  <li className="rounded-full border border-amber-400/25 bg-amber-500/10 px-3 py-1.5 text-sm font-semibold text-amber-100">
+                    {t.levelsTaught}
                   </li>
                 </ul>
               )}
@@ -116,57 +93,63 @@ export default function TeacherProfilePage() {
         </div>
       </div>
 
-      {/* Overlap content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
-        <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-8 shadow-[0_25px_80px_-20px_rgba(15,23,42,0.2)]">
-          <p className="text-sm text-slate-500 flex items-center gap-2 mb-4">
-            <MapPin className="text-oxford-500 shrink-0" size={16} />
-            <span>Teaching focus & availability — Oxford Group</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-12 relative z-10 space-y-5">
+        <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+            <MapPin className="text-oxford-600" size={16} />
+            Teaching focus
+          </h2>
+          <p className="mt-2 text-slate-700 leading-relaxed flex items-start gap-2">
+            <Sparkles className="text-amber-500 shrink-0 mt-0.5" size={18} />
+            <span>{t.introWork}</span>
           </p>
-          <div className="rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50/80 to-slate-50/50 p-4 sm:p-5 mb-6">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-900/80 flex items-center gap-2">
-              <Sparkles className="text-emerald-600" size={18} />
-              In their words
-            </h2>
-            <p className="mt-2 text-slate-700 leading-relaxed">{t.introWork}</p>
-          </div>
+        </div>
 
-          <h2 className="sr-only">Key numbers</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            <StatPill icon={Users} label="Current students" value={t.currentStudents.toLocaleString()} />
-            <StatPill
-              icon={Users}
-              label="Students taught (all-time)"
-              value={`${t.totalStudentsTaught.toLocaleString()}+`}
-            />
-            <StatPill
-              icon={Activity}
-              label="Hours taught (approx.)"
-              value={`${t.totalHoursTaught.toLocaleString()}+`}
-            />
-            <StatPill wide icon={BookOpen} label="This term’s focus" value={t.currentLesson} sub="Current cohort" />
-            <StatPill icon={Target} label="CEFR range" value={t.levelsTaught} />
-            <StatPill icon={Star} label="Learner rating" value={`${t.rating} / 5`} />
-            <StatPill icon={Clock} label="Session length" value={t.sessionDuration} />
-            <StatPill
-              icon={Banknote}
-              label="Rate (from)"
-              value={`${t.pricePerHourMad} MAD / hr`}
-              sub="Varies by format and center"
-            />
-          </div>
+        <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm overflow-hidden">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-1">
+            <BarChart3 className="text-oxford-600" size={22} />
+            Performance &amp; analytics
+          </h2>
+          <p className="text-sm text-slate-500 mb-5">Charts are derived from the profile metrics below. Tooltips show exact figures.</p>
+          <TeacherProfileCharts t={t} />
+        </div>
+
+        <div className="rounded-3xl border border-slate-200/90 bg-slate-50/80 p-4 sm:p-5 shadow-sm">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-oxford-700 mb-3">Key facts (accurate)</h2>
+          <dl className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+            <div className="rounded-xl bg-white border border-slate-200/90 px-3 py-2.5">
+              <dt className="text-slate-500 text-xs">Current class focus</dt>
+              <dd className="font-semibold text-slate-900 leading-snug mt-0.5">{t.currentLesson}</dd>
+            </div>
+            <div className="rounded-xl bg-white border border-slate-200/90 px-3 py-2.5">
+              <dt className="text-slate-500 text-xs">CEFR range</dt>
+              <dd className="font-semibold text-slate-900 tabular-nums"><Target className="inline w-3.5 h-3.5 text-oxford-500 mr-1" />{t.levelsTaught}</dd>
+            </div>
+            <div className="rounded-xl bg-white border border-slate-200/90 px-3 py-2.5">
+              <dt className="text-slate-500 text-xs">Current students / Total taught / Hours</dt>
+              <dd className="font-semibold text-slate-900 tabular-nums">
+                {t.currentStudents} · {t.totalStudentsTaught.toLocaleString()}+ · {t.totalHoursTaught.toLocaleString()}+
+              </dd>
+            </div>
+            <div className="rounded-xl bg-white border border-slate-200/90 px-3 py-2.5">
+              <dt className="text-slate-500 text-xs">Session · Rate (from)</dt>
+              <dd className="font-semibold text-slate-900">
+                {t.sessionDuration} · {t.pricePerHourMad} MAD/hr
+              </dd>
+            </div>
+          </dl>
         </div>
 
         {t.weeklySchedule?.length > 0 && (
-          <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Calendar className="text-oxford-600" size={22} />
-              Typical week
+              Typical week (office hours)
             </h2>
-            <ul className="mt-4 divide-y divide-slate-100">
+            <ul className="mt-3 divide-y divide-slate-100 text-sm">
               {t.weeklySchedule.map((row, i) => (
-                <li key={i} className="flex flex-wrap justify-between gap-2 py-3 first:pt-0">
-                  <span className="font-medium text-slate-800">{row.day}</span>
+                <li key={i} className="flex flex-wrap justify-between gap-2 py-2.5 first:pt-0">
+                  <span className="text-slate-700">{row.day}</span>
                   <span className="font-semibold text-oxford-600 tabular-nums">{row.time}</span>
                 </li>
               ))}
@@ -174,14 +157,14 @@ export default function TeacherProfilePage() {
           </div>
         )}
 
-        <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-8 shadow-sm">
+        <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             <BookOpen className="text-oxford-600" size={24} />
             About &amp; approach
           </h2>
           <p className="mt-4 text-slate-600 leading-relaxed whitespace-pre-line">{c.longBio}</p>
           {c.methodology && (
-            <div className="mt-6 rounded-2xl bg-slate-50 border border-slate-100 p-4 sm:p-5">
+            <div className="mt-5 rounded-2xl bg-slate-50 border border-slate-100 p-4">
               <p className="text-sm font-bold text-slate-800 mb-1">Methodology</p>
               <p className="text-slate-600 text-sm leading-relaxed">{c.methodology}</p>
             </div>
@@ -189,10 +172,10 @@ export default function TeacherProfilePage() {
         </div>
 
         {c.languagesSpoken?.length > 0 && (
-          <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Globe className="text-oxford-600" size={22} />
-              Languages
+              Languages spoken
             </h2>
             <ul className="mt-3 flex flex-wrap gap-2">
               {c.languagesSpoken.map((lang) => (
@@ -205,16 +188,16 @@ export default function TeacherProfilePage() {
         )}
 
         {c.education?.length > 0 && (
-          <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <GraduationCap className="text-oxford-600" size={22} />
               Education
             </h2>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-3 space-y-3 text-sm">
               {c.education.map((e, i) => (
-                <li key={i} className="border-l-4 border-oxford-200 pl-4">
+                <li key={i} className="border-l-4 border-oxford-200 pl-3">
                   <p className="font-bold text-slate-900">{e.degree}</p>
-                  <p className="text-slate-600 text-sm">{e.school} · {e.year}</p>
+                  <p className="text-slate-500">{e.school} · {e.year}</p>
                 </li>
               ))}
             </ul>
@@ -222,12 +205,12 @@ export default function TeacherProfilePage() {
         )}
 
         {c.certifications?.length > 0 && (
-          <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Award className="text-oxford-600" size={22} />
               Certifications
             </h2>
-            <ul className="mt-3 list-disc list-inside text-slate-600 space-y-1">
+            <ul className="mt-2 list-disc list-inside text-slate-600 text-sm space-y-1">
               {c.certifications.map((x) => (
                 <li key={x}>{x}</li>
               ))}
@@ -236,36 +219,33 @@ export default function TeacherProfilePage() {
         )}
 
         {c.experience?.length > 0 && (
-          <div className="mt-6 rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-sm">
+          <div className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Briefcase className="text-oxford-600" size={22} />
               Experience
             </h2>
-            <ul className="mt-4 space-y-4">
+            <ul className="mt-3 space-y-3 text-sm">
               {c.experience.map((e, i) => (
-                <li key={i} className="flex justify-between gap-4 flex-wrap border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                <li key={i} className="flex justify-between gap-3 flex-wrap border-b border-slate-100 pb-2 last:border-0 last:pb-0">
                   <div>
                     <p className="font-bold text-slate-900">{e.title}</p>
-                    <p className="text-slate-500 text-sm">{e.org}</p>
+                    <p className="text-slate-500">{e.org}</p>
                   </div>
-                  <p className="text-sm text-oxford-600 font-medium shrink-0">{e.years}</p>
+                  <p className="text-oxford-600 font-medium shrink-0 tabular-nums">{e.years}</p>
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <a
             href={withHomeHash('contact')}
-            className="btn-primary justify-center text-center flex-1 py-3.5 text-base"
+            className="btn-primary justify-center text-center flex-1 py-3.5"
           >
             Book a session
           </a>
-          <Link
-            to="/"
-            className="btn-secondary justify-center text-center flex-1 py-3.5 text-base"
-          >
+          <Link to="/" className="btn-secondary justify-center text-center flex-1 py-3.5">
             More teachers
           </Link>
         </div>
