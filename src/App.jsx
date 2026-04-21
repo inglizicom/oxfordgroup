@@ -2,10 +2,9 @@ import Navbar        from './components/Navbar'
 import Hero          from './components/Hero'
 import ActionBar     from './components/ActionBar'
 import SocialProof   from './components/SocialProof'
+import OurSchools    from './components/OurSchools'
 import Branches      from './components/Branches'
-import OnlineOffline from './components/OnlineOffline'
 import MoroccoMap    from './components/MoroccoMap'
-import Teachers      from './components/Teachers'
 import Testimonials  from './components/Testimonials'
 import PlacementTest from './components/PlacementTest'
 import FAQ           from './components/FAQ'
@@ -25,15 +24,14 @@ export default function App() {
         {/* 1. ATTENTION */}
         <Hero />
         <ActionBar />
+        <OurSchools />
 
         {/* 2. TRUST */}
         <SocialProof />
         <Branches />
 
-        {/* 3. DECISION */}
-        <OnlineOffline />
+        {/* 3. DECISION — map kept as requested */}
         <MoroccoMap />
-        <Teachers />
         <Testimonials />
         <PlacementTest />
 

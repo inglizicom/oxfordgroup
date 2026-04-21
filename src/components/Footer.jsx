@@ -5,7 +5,7 @@ const LINKS = {
     { label: 'English Courses',        href: '#branches' },
     { label: 'French Courses',         href: '#branches' },
     { label: 'Kids & Teens',           href: '#branches' },
-    { label: 'Online Programs',        href: '#online-offline' },
+    { label: 'Our schools',            href: '#our-schools' },
     { label: 'Classes Préparatoires',  href: '#branches' },
     { label: 'Corporate Training',     href: '#contact' },
   ],
@@ -15,7 +15,6 @@ const LINKS = {
     { label: 'Smart Generations',      href: '#branches' },
     { label: 'Bridge',                 href: '#branches' },
     { label: 'Englishy',               href: '#branches' },
-    { label: 'Les Classes Prépa',      href: '#branches' },
   ],
   'Company': [
     { label: 'About Us',               href: '#' },

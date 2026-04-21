@@ -3,17 +3,18 @@ import { Menu, X, ChevronDown, GraduationCap } from 'lucide-react'
 
 const NAV_LINKS = [
   { label: 'Home',         href: '#home' },
-  { label: 'Branches',     href: '#branches' },
-  { label: 'Teachers',     href: '#teachers' },
-  { label: 'Students',     href: '#testimonials' },
+  { label: 'Our schools',  href: '#our-schools' },
+  { label: 'Branches',   href: '#branches' },
+  { label: 'Teachers',   href: '#teachers' },
+  { label: 'Students',    href: '#testimonials' },
   {
     label: 'Courses',
-    href: '#courses',
+    href: '#branches',
     children: [
-      { label: 'English Courses',         href: '#courses' },
-      { label: 'French Courses',          href: '#courses' },
-      { label: 'Classes Préparatoires',   href: '#courses' },
-      { label: 'Online Programs',         href: '#online-offline' },
+      { label: 'English Courses',         href: '#branches' },
+      { label: 'French Courses',         href: '#branches' },
+      { label: 'Classes Préparatoires',  href: '#branches' },
+      { label: 'Online programs',        href: '#our-schools' },
     ],
   },
 ]
@@ -37,7 +38,7 @@ export default function Navbar() {
       }
 
       // Active nav tracking
-      const sections = ['home', 'branches', 'teachers', 'testimonials', 'courses']
+      const sections = ['home', 'our-schools', 'branches', 'teachers', 'testimonials', 'map']
       for (const id of sections) {
         const el = document.getElementById(id)
         if (el) {
