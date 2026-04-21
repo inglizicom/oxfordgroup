@@ -5,6 +5,121 @@ const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'B2+', 'C1', 'C2']
 /**
  * Merged display fields + curriculum. Prices in MAD; sessions are private / small-group.
  */
+/** Teaching stats, schedule, and context for profile + school flow */
+const TEACHER_STATS = {
+  1: {
+    totalStudentsTaught: 820,
+    totalHoursTaught: 12400,
+    currentStudents: 24,
+    currentLesson: 'IELTS B2+ evening cohort · business writing clinic',
+    introWork: 'Over ten years guiding Moroccan and international learners toward IELTS 7+ and clear workplace English.',
+    weeklySchedule: [
+      { day: 'الاثنين / Mon', time: '17:00–20:00' },
+      { day: 'الأربعاء / Wed', time: '17:00–20:00' },
+      { day: 'السبت / Sat', time: '10:00–13:00' },
+    ],
+  },
+  2: {
+    totalStudentsTaught: 640,
+    totalHoursTaught: 11200,
+    currentStudents: 18,
+    currentLesson: 'DELF B2 / Classes prépa oral French',
+    introWork: 'Prépa and DALF specialist with a calm, exam-focused path for students aiming at grandes écoles and French-medium careers.',
+    weeklySchedule: [
+      { day: 'الثلاثاء / Tue', time: '16:00–20:00' },
+      { day: 'الخميس / Thu', time: '16:00–20:00' },
+    ],
+  },
+  3: {
+    totalStudentsTaught: 1200,
+    totalHoursTaught: 9600,
+    currentStudents: 32,
+    currentLesson: 'Young learners A2 English · songs & story arc',
+    introWork: 'Creates safe, joyful classes for children and families in line with our values: respect, growth, and clear parent communication.',
+    weeklySchedule: [
+      { day: 'الأحد / Sun', time: '14:00–18:00' },
+      { day: 'السبت / Sat', time: '09:00–13:00' },
+    ],
+  },
+  4: {
+    totalStudentsTaught: 710,
+    totalHoursTaught: 8900,
+    currentStudents: 20,
+    currentLesson: 'Fluency lab · pronunciation for Darija speakers',
+    introWork: 'Helps students speak with confidence, with culturally aware feedback for Moroccan Arabic-background learners.',
+    weeklySchedule: [
+      { day: 'الاثنين / Mon', time: '18:00–21:00' },
+      { day: 'الخميس / Thu', time: '18:00–21:00' },
+    ],
+  },
+  5: {
+    totalStudentsTaught: 430,
+    totalHoursTaught: 5200,
+    currentStudents: 12,
+    currentLesson: 'Spanish A2 travel & conversation',
+    introWork: 'Bridges Spanish to everyday goals—travel, family, and work—with patience and real listening practice.',
+    weeklySchedule: [
+      { day: 'الثلاثاء / Tue', time: '17:00–20:00' },
+      { day: 'السبت / Sat', time: '10:00–12:00' },
+    ],
+  },
+  6: {
+    totalStudentsTaught: 560,
+    totalHoursTaught: 7800,
+    currentStudents: 16,
+    currentLesson: 'Academic writing & SAT / IELTS C1+',
+    introWork: 'Prepares students for university-level writing and high-stakes tests with structured feedback loops.',
+    weeklySchedule: [
+      { day: 'الأربعاء / Wed', time: '15:00–19:00' },
+      { day: 'الجمعة / Fri', time: '10:00–14:00' },
+    ],
+  },
+  7: {
+    totalStudentsTaught: 950,
+    totalHoursTaught: 6600,
+    currentStudents: 28,
+    currentLesson: 'Blended B1 English · working adults cohort',
+    introWork: 'Evening-friendly online and hybrid classes for professionals balancing family, faith, and career.',
+    weeklySchedule: [
+      { day: 'الاثنين / Mon', time: '19:30–22:00' },
+      { day: 'الأربعاء / Wed', time: '19:30–22:00' },
+    ],
+  },
+  8: {
+    totalStudentsTaught: 680,
+    totalHoursTaught: 4200,
+    currentStudents: 22,
+    currentLesson: 'Foundation English A1–A2 · confidence first',
+    introWork: 'Patient, structured starts for true beginners, including first-language support in Arabic and French when useful.',
+    weeklySchedule: [
+      { day: 'الثلاثاء / Tue', time: '16:00–19:00' },
+      { day: 'الخميس / Thu', time: '16:00–19:00' },
+    ],
+  },
+  9: {
+    totalStudentsTaught: 1100,
+    totalHoursTaught: 10100,
+    currentStudents: 30,
+    currentLesson: 'Teen French B1 · project weeks',
+    introWork: 'Steady progression for teens, with small groups and a culture of respect, punctuality, and clear goals.',
+    weeklySchedule: [
+      { day: 'الأحد / Sun', time: '10:00–14:00' },
+      { day: 'الخميس / Thu', time: '17:00–20:00' },
+    ],
+  },
+  10: {
+    totalStudentsTaught: 490,
+    totalHoursTaught: 13200,
+    currentStudents: 14,
+    currentLesson: 'Corporate C1+ · client calls & email clinic',
+    introWork: 'Trains teams and individuals for international clients; scenarios respect local business culture and global etiquette.',
+    weeklySchedule: [
+      { day: 'الاثنين / Mon', time: '12:00–15:00' },
+      { day: 'الأربعاء / Wed', time: '12:00–15:00' },
+    ],
+  },
+}
+
 const EXTRAS = {
   1: {
     sessionDuration: '50 min',
@@ -195,9 +310,18 @@ export function getTeacherById(id) {
     languagesSpoken: [],
     methodology: 'Student-centered communicative language teaching.',
   }
+  const stats = TEACHER_STATS[n] || {
+    totalStudentsTaught: 0,
+    totalHoursTaught: 0,
+    currentStudents: 0,
+    currentLesson: '—',
+    introWork: base.specialty,
+    weeklySchedule: [],
+  }
   return {
     ...base,
     ...extra,
+    ...stats,
     levelsTaught: levelsFromTeaches(base),
     curriculum: cur,
   }

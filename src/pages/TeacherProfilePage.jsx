@@ -1,6 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
-import { ArrowLeft, Star, BookOpen, Award, Briefcase, Globe, Clock, Banknote, GraduationCap, Target } from 'lucide-react'
+import {
+  ArrowLeft, Star, BookOpen, Award, Briefcase, Globe, Clock, Banknote, GraduationCap, Target, Users, Calendar, Sparkles, Activity,
+} from 'lucide-react'
 import { getTeacherById } from '../data/teacherProfiles'
+import { LANGUAGE_META } from '../data/languageFlags'
 import { withHomeHash } from '../utils/homeLink'
 
 export default function TeacherProfilePage() {
@@ -19,16 +22,28 @@ export default function TeacherProfilePage() {
   const { curriculum, levelsTaught, sessionDuration, pricePerHourMad } = t
   const c = curriculum
 
+  const teachingLanguages = [...new Set(t.teaches.map((s) => s.language))]
+    .map((code) => LANGUAGE_META[code]?.label)
+    .filter(Boolean)
+
   return (
     <main className="min-h-screen bg-slate-50">
       <div className="bg-gradient-to-br from-oxford-900 via-oxford-800 to-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-16 md:pb-20">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-blue-200 hover:text-white mb-8"
-          >
-            <ArrowLeft size={18} /> Back to home
-          </Link>
+          <div className="flex flex-wrap items-center gap-4 mb-8">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-200 hover:text-white"
+            >
+              <ArrowLeft size={18} /> Back to home
+            </Link>
+            <a
+              href={withHomeHash('our-schools')}
+              className="inline-flex items-center gap-2 text-sm font-medium text-amber-200/90 hover:text-white"
+            >
+              School finder
+            </a>
+          </div>
           <div className="flex flex-col sm:flex-row gap-8 sm:items-end">
             <div className="shrink-0">
               <div className="h-40 w-40 sm:h-48 sm:w-48 rounded-3xl overflow-hidden ring-4 ring-white/20 shadow-2xl bg-slate-800">
@@ -52,14 +67,81 @@ export default function TeacherProfilePage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-8 pb-20">
-        <div className="grid sm:grid-cols-2 gap-4">
+        {teachingLanguages.length > 0 && (
+          <div className="rounded-2xl border border-amber-200/60 bg-amber-50/90 p-5 shadow-sm mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-amber-900/80">Languages this teacher offers</h2>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {teachingLanguages.map((lang) => (
+                <li key={lang} className="px-3 py-1.5 rounded-lg bg-white text-amber-950 text-sm font-semibold border border-amber-200">
+                  {lang}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-amber-900/70 mt-2">CEFR range covered: <strong>{levelsTaught}</strong></p>
+          </div>
+        )}
+
+        <div className="rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50/80 to-white p-5 shadow-sm mb-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-emerald-900/80 flex items-center gap-2">
+            <Sparkles className="text-emerald-600" size={18} />
+            Teaching in focus
+          </h2>
+          <p className="mt-2 text-slate-700 leading-relaxed">{t.introWork}</p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3 sm:col-span-2">
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-800">
+              <BookOpen size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Current class focus</p>
+              <p className="text-base font-semibold text-slate-900 mt-0.5 leading-snug">{t.currentLesson}</p>
+            </div>
+          </div>
           <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
             <div className="p-2 rounded-xl bg-oxford-50 text-oxford-700">
               <Target size={20} />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Levels taught</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Levels (CEFR)</p>
               <p className="text-lg font-bold text-slate-900 mt-0.5">{levelsTaught}</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-oxford-50 text-oxford-700">
+              <Users size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Current students</p>
+              <p className="text-lg font-bold text-slate-900 mt-0.5">{t.currentStudents.toLocaleString()}</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-oxford-50 text-oxford-700">
+              <Users size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Total students (all-time)</p>
+              <p className="text-lg font-bold text-slate-900 mt-0.5">{t.totalStudentsTaught.toLocaleString()}+</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-oxford-50 text-oxford-700">
+              <Activity size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Hours taught (approx.)</p>
+              <p className="text-lg font-bold text-slate-900 mt-0.5">{t.totalHoursTaught.toLocaleString()}+</p>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-oxford-50 text-oxford-700">
+              <Star size={20} className="text-amber-500 fill-amber-400" />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Learner rating</p>
+              <p className="text-lg font-bold text-slate-900 mt-0.5">{t.rating} / 5</p>
             </div>
           </div>
           <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm flex items-start gap-3">
@@ -76,12 +158,29 @@ export default function TeacherProfilePage() {
               <Banknote size={20} />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Price (from)</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Rate (from)</p>
               <p className="text-lg font-bold text-slate-900 mt-0.5">{pricePerHourMad} MAD / hour</p>
               <p className="text-xs text-slate-500 mt-1">Final price depends on format (private vs group) and center.</p>
             </div>
           </div>
         </div>
+
+        {t.weeklySchedule?.length > 0 && (
+          <div className="mt-4 rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <Calendar className="text-oxford-600" size={22} />
+              Typical weekly hours
+            </h2>
+            <ul className="mt-4 space-y-2">
+              {t.weeklySchedule.map((row, i) => (
+                <li key={i} className="flex flex-wrap justify-between gap-2 text-slate-700 border-b border-slate-100 pb-2 last:border-0 last:pb-0">
+                  <span className="font-medium text-slate-900">{row.day}</span>
+                  <span className="text-oxford-700 font-semibold tabular-nums">{row.time}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-10 rounded-2xl bg-white border border-slate-200 p-6 md:p-8 shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
